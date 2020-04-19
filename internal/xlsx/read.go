@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
-	"github.com/pbartkowicz/Scheduler/internal/schedule"
+	"github.com/pbartkowicz/scheduler/internal/schedule"
 )
 
 // ReadOptions ...

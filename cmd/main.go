@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/pbartkowicz/Scheduler/internal/xlsx"
+	"github.com/pbartkowicz/scheduler/internal/xlsx"
 )
 
 func main() {

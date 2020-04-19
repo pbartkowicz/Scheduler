@@ -1,4 +1,4 @@
-module github.com/pbartkowicz/Scheduler
+module github.com/pbartkowicz/scheduler
 
 go 1.14
 
