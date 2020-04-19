@@ -1,3 +1,4 @@
+// Package schedule ...
 package schedule
 
 // Schedule represents a students' schedule for one semester.
