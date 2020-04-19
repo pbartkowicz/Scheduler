@@ -13,3 +13,10 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Data folders
+data/
+template/
+
+# Workspace configuration
+*.code-workspace
