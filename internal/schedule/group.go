@@ -1,20 +1,36 @@
 package schedule
 
 import (
-	"fmt"
+	"errors"
 	"strconv"
 	"time"
 )
 
-// ClassType defines
+var (
+	// ErrWrongClassType is returned when a passed class type is incorrect.
+	ErrWrongClassType = errors.New("incorrect class type, available types: C - Class, W - Lecture, L - Laboratory")
+	// ErrWrongWeekday is returned when a passed weekday is incorrect.
+	ErrWrongWeekday = errors.New("incorrect weekday, available weekdays: Monday, Tuesday, Wednesday, Thursday, Friday")
+)
+
+// GroupError represents an error struct returned while creating new Group.
+type GroupError struct {
+	Err error
+}
+
+func (e *GroupError) Error() string {
+	return "failed to create group: " + e.Err.Error()
+}
+
+// ClassType defines type of a class.
 type ClassType string
 
 const (
-	// Class ...
+	// Class - class.
 	Class ClassType = "Class"
-	// Lecture ...
+	// Lecture - lecture.
 	Lecture ClassType = "Lecture"
-	// Laboratory ...
+	// Laboratory - laboratory.
 	Laboratory ClassType = "Laboratory"
 )
 
@@ -32,7 +48,7 @@ var weekdays = map[string]time.Weekday{
 	"Friday":    time.Friday,
 }
 
-// Group represents a
+// Group represents a single students group for one subject.
 type Group struct {
 	Type             ClassType
 	Teacher          string
@@ -48,21 +64,56 @@ type Group struct {
 	PriorityStudents []Student
 }
 
-// NewGroup ...
-func NewGroup(v []string) *Group {
-	// TODO errors and validation
-	f, _ := strconv.Atoi(v[8])
-	c, _ := strconv.Atoi(v[10])
-	dLayout := "01-02-06"
-	d, err := time.Parse(dLayout, v[7])
-	if err != nil {
-		fmt.Printf("%s", err.Error())
+// NewGroup creates new instance of Group.
+// It returns GroupError when passed parameters are invalid.
+// Passed parameters:
+// 0 - subject name
+// 1 - class type [C - class, W - lecture, L - laboratory]
+// 2 - teacher
+// 3 - weekday [Monday, Tuesday, Wednesday, Thursday, Friday]
+// 4 - start time, format: 14:00
+// 5 - end time, format: 15:30
+// 6 - place
+// 7 - start date, format: 03-05-20 (5th of March 2020)
+// 8 - frequency, format: number
+// 9 - name
+// 10 - capacity, format: nubmer
+func NewGroup(v []string) (*Group, error) {
+	t := types[v[1]]
+	if t == "" {
+		return nil, &GroupError{Err: ErrWrongClassType}
 	}
-	tLayout := "15:04"
-	st, _ := time.Parse(tLayout, v[4])
-	et, _ := time.Parse(tLayout, v[5])
+
+	w := weekdays[v[3]]
+	if w == 0 {
+		return nil, &GroupError{Err: ErrWrongWeekday}
+	}
+
+	st, err := time.Parse(timeLayout, v[4])
+	if err != nil {
+		return nil, &GroupError{Err: err}
+	}
+	et, err := time.Parse(timeLayout, v[5])
+	if err != nil {
+		return nil, &GroupError{Err: err}
+	}
+
+	d, err := time.Parse(dateLayout, v[7])
+	if err != nil {
+		return nil, &GroupError{Err: err}
+	}
+
+	f, err := strconv.Atoi(v[8])
+	if err != nil {
+		return nil, &GroupError{Err: err}
+	}
+	c, err := strconv.Atoi(v[10])
+	if err != nil {
+		return nil, &GroupError{Err: err}
+	}
+
 	return &Group{
-		Type:      types[v[1]],
+		Type:      t,
 		Teacher:   v[2],
 		Weekday:   time.Weekday(weekdays[v[3]]),
 		StartTime: st,
@@ -72,5 +123,5 @@ func NewGroup(v []string) *Group {
 		Frequency: f,
 		Name:      v[9],
 		Capacity:  c,
-	}
+	}, nil
 }
