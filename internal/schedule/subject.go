@@ -4,6 +4,6 @@ package schedule
 // It contains all subject's groups.
 type Subject struct {
 	Name     string
-	Lectures []Group
-	Groups   []Group
+	Lectures []*Group
+	Groups   []*Group
 }

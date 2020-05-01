@@ -1,5 +1,6 @@
 package schedule
 
+// TODO add final groups
 // Student represents a student.
 // Happieness
 type Student struct {
@@ -15,6 +16,7 @@ type ChosenGroups struct {
 	GroupPriorities []GroupPriority
 }
 
+// TODO - change it to map
 // GroupPriority ...
 type GroupPriority struct {
 	Group    string

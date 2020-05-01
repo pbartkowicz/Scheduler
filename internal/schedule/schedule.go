@@ -8,5 +8,23 @@ const (
 
 // Schedule represents a students' schedule for one semester.
 type Schedule struct {
-	Subjects []Subject
+	Subjects []*Subject
+}
+
+func (s *Schedule) SubjectExists(n string) bool {
+	for _, sub := range s.Subjects {
+		if sub.Name == n {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *Schedule) GetSubject(n string) *Subject {
+	for _, sub := range s.Subjects {
+		if sub.Name == n {
+			return sub
+		}
+	}
+	return nil
 }
