@@ -18,5 +18,8 @@
 data/
 template/
 
+# Compiled files
+bin/
+
 # Workspace configuration
 *.code-workspace
