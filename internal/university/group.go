@@ -13,7 +13,7 @@ var (
 	ErrWrongWeekday = errors.New("incorrect weekday, available weekdays: Monday, Tuesday, Wednesday, Thursday, Friday")
 )
 
-// GroupError represents an error struct returned while creating new Group.
+// GroupError represents an error struct returned when creating new Group.
 type GroupError struct {
 	Err error
 }

@@ -1,11 +1,11 @@
 package university
 
 import (
-	"reflect"
 	"strconv"
 	"testing"
 	"time"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/pbartkowicz/scheduler/test/tools"
 )
 
@@ -185,10 +185,10 @@ func TestNewGroup(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := NewGroup(tt.args.v)
-			if !tools.CompareErrors(err, tt.err) {
+			if !cmp.Equal(err, tt.err, cmp.Comparer(tools.CompareErrors)) {
 				t.Errorf("NewGroup() error = %v, err %v", err, tt.err)
 			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if !cmp.Equal(got, tt.want) {
 				t.Errorf("NewGroup() got = %v, want %v", got, tt.want)
 			}
 		})

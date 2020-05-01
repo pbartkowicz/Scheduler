@@ -11,13 +11,8 @@ type Schedule struct {
 	Subjects []*Subject
 }
 
-func (s *Schedule) SubjectExists(n string) bool {
-	for _, sub := range s.Subjects {
-		if sub.Name == n {
-			return true
-		}
-	}
-	return false
+func NewSchedule() *Schedule {
+	return nil
 }
 
 func (s *Schedule) GetSubject(n string) *Subject {
