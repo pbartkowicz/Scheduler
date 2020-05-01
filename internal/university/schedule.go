@@ -1,5 +1,5 @@
-// Package schedule ...
-package schedule
+// Package university ...
+package university
 
 const (
 	timeLayout = "15:04"

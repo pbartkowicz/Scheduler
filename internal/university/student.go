@@ -1,4 +1,4 @@
-package schedule
+package university
 
 // TODO add final groups
 // Student represents a student.

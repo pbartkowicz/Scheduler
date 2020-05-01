@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/pbartkowicz/scheduler/internal/schedule"
+	"github.com/pbartkowicz/scheduler/internal/university"
 	"github.com/pbartkowicz/scheduler/internal/xlsx"
 )
 
@@ -17,28 +17,28 @@ func main() {
 
 // TODO - change package name to university
 func createSchedule(gf string) error {
-	s := &schedule.Schedule{}
+	s := &university.Schedule{}
 	g, err := xlsx.Read(gf, true)
 	if err != nil {
 		return err
 	}
 	for _, gg := range g {
-		ng, err := schedule.NewGroup(gg)
+		ng, err := university.NewGroup(gg)
 		if err != nil {
 			return err
 		}
 		sub := s.GetSubject(gg[0])
 		if sub != nil {
-			if ng.Type == schedule.Lecture {
+			if ng.Type == university.Lecture {
 				sub.Lectures = append(sub.Lectures, ng)
 			} else {
 				sub.Groups = append(sub.Groups, ng)
 			}
 		} else {
-			sub = &schedule.Subject{
+			sub = &university.Subject{
 				Name: gg[0],
 			}
-			if ng.Type == schedule.Lecture {
+			if ng.Type == university.Lecture {
 				sub.Lectures = append(sub.Lectures, ng)
 			} else {
 				sub.Groups = append(sub.Groups, ng)

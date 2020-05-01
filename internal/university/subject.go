@@ -1,4 +1,4 @@
-package schedule
+package university
 
 // Subject represets one subject.
 // It contains all subject's groups.
