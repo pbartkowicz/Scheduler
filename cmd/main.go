@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/pbartkowicz/scheduler/internal/schedule"
 	"github.com/pbartkowicz/scheduler/internal/university"
 	"github.com/pbartkowicz/scheduler/internal/xlsx"
 )
@@ -15,16 +16,25 @@ func main() {
 	gf := flag.String("groups", "data/groups.xlsx", "Path to file containing groups")
 	sd := flag.String("students", "data/students", "Path to directory containing students")
 	psf := flag.String("priority", "data/priority_students.xlsx", "Path to file containing priority students")
-	if _, err := readSchedule(*gf); err != nil {
+
+	sch, err := readSchedule(*gf)
+	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}
+
 	students, err := readStudents(*sd)
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}
+
 	if err := readPriorityStudents(*psf, students); err != nil {
+		fmt.Printf("%s\n", err.Error())
+		os.Exit(1)
+	}
+
+	if err := schedule.Enroll(sch, students); err != nil {
 		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}

@@ -2,6 +2,7 @@ package university
 
 import (
 	"errors"
+	"math"
 	"sort"
 	"strconv"
 	"strings"
@@ -92,4 +93,16 @@ func (s *Student) validate() error {
 		}
 	}
 	return nil
+}
+
+func (s *Student) GetPrefredGroup(subject string, groups []string) (res string) {
+	p := math.MaxInt64
+	for _, g := range groups {
+		v := s.Preferences[SubjectGroup{subject, g}]
+		if p > v {
+			p = v
+			res = g
+		}
+	}
+	return
 }

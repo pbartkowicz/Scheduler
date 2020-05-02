@@ -60,8 +60,8 @@ type Group struct {
 	Frequency        int
 	Name             string
 	Capacity         int
-	Students         []Student
-	PriorityStudents []Student
+	Students         []*Student
+	PriorityStudents []*Student
 }
 
 // NewGroup creates new instance of Group.
