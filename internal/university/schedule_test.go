@@ -66,10 +66,10 @@ func TestNewSchedule(t *testing.T) {
 			},
 			want: &Schedule{
 				Subjects: []*Subject{
-					&Subject{
+					{
 						Name: "Programming",
 						Lectures: []*Group{
-							&Group{
+							{
 								Type:      Lecture,
 								Teacher:   "teacher",
 								Weekday:   time.Thursday,
@@ -83,7 +83,7 @@ func TestNewSchedule(t *testing.T) {
 							},
 						},
 						Groups: []*Group{
-							&Group{
+							{
 								Type:      Class,
 								Teacher:   "teacher",
 								Weekday:   time.Monday,
@@ -138,10 +138,10 @@ func TestSchedule_GetSubject(t *testing.T) {
 			},
 			s: &Schedule{
 				Subjects: []*Subject{
-					&Subject{
+					{
 						Name: "subject",
 					},
-					&Subject{
+					{
 						Name: "subject2",
 					},
 				},
