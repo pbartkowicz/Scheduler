@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/pbartkowicz/scheduler/internal/university"
@@ -12,47 +13,30 @@ import (
 
 func main() {
 	gf := flag.String("groups", "data/groups.xlsx", "Path to file containing groups")
-	sf := flag.String("students", "data/students", "Path to directory containing students")
-	if err := createSchedule(*gf); err != nil {
-		fmt.Printf(err.Error())
-		return
+	sd := flag.String("students", "data/students", "Path to directory containing students")
+	sf := flag.String("priority", "data/priority_students.xlsx", "Path to file containing priority students")
+	if err := readSchedule(*gf); err != nil {
+		fmt.Printf("%s\n", err.Error())
+		os.Exit(1)
 	}
-	if err := readStudents(*sf); err != nil {
-		fmt.Printf(err.Error())
-		return
+	if err := readStudents(*sd); err != nil {
+		fmt.Printf("%s\n", err.Error())
+		os.Exit(1)
+	}
+	if err := readPriorityStudents(*sf); err != nil {
+		fmt.Printf("%s\n", err.Error())
+		os.Exit(1)
 	}
 }
 
-// TODO - move it as new schedule
-func createSchedule(gf string) error {
-	s := &university.Schedule{}
+func readSchedule(gf string) error {
 	g, err := xlsx.Read(gf, true)
 	if err != nil {
 		return err
 	}
-	for _, gg := range g {
-		ng, err := university.NewGroup(gg)
-		if err != nil {
-			return err
-		}
-		sub := s.GetSubject(gg[0])
-		if sub != nil {
-			if ng.Type == university.Lecture {
-				sub.Lectures = append(sub.Lectures, ng)
-			} else {
-				sub.Groups = append(sub.Groups, ng)
-			}
-		} else {
-			sub = &university.Subject{
-				Name: gg[0],
-			}
-			if ng.Type == university.Lecture {
-				sub.Lectures = append(sub.Lectures, ng)
-			} else {
-				sub.Groups = append(sub.Groups, ng)
-			}
-			s.Subjects = append(s.Subjects, sub)
-		}
+	s, err := university.NewSchedule(g)
+	if err != nil {
+		return err
 	}
 	for _, i := range s.Subjects {
 		fmt.Printf("%+v\n", i)
@@ -79,6 +63,17 @@ func readStudents(sd string) error {
 			return err
 		}
 		fmt.Printf("%+v", st)
+	}
+	return nil
+}
+
+func readPriorityStudents(sf string) error {
+	s, err := xlsx.Read(sf, false)
+	if err != nil {
+		return err
+	}
+	for _, ss := range s {
+		fmt.Printf("%v\n", ss)
 	}
 	return nil
 }
