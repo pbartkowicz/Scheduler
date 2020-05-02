@@ -50,22 +50,23 @@ type SubjectGroup struct {
 // It returns StudentError when passed parameters are invalid.
 // Passed parameters:
 // n - filename which contains student name
+// pref:
 // 0 - subject name
 // 1 - group name
 // 2 - group priority
-func NewStudent(v [][]string, n string) (*Student, error) {
+func NewStudent(pref [][]string, n string) (*Student, error) {
 	s := &Student{
 		Name:        strings.Replace(n, ".xlsx", "", -1),
 		Happieness:  100,
 		Preferences: make(map[SubjectGroup]int),
 		FinalGroups: make(map[string]*Group),
 	}
-	for _, g := range v {
-		p, err := strconv.Atoi(g[2])
+	for _, p := range pref {
+		pr, err := strconv.Atoi(p[2])
 		if err != nil {
 			return nil, &StudentError{Err: err}
 		}
-		s.Preferences[SubjectGroup{g[0], g[1]}] = p
+		s.Preferences[SubjectGroup{p[0], p[1]}] = pr
 	}
 	return s, s.validate()
 }

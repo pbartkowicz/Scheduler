@@ -66,7 +66,7 @@ type Group struct {
 
 // NewGroup creates new instance of Group.
 // It returns GroupError when passed parameters are invalid.
-// Passed parameters:
+// subjects:
 // 0 - subject name
 // 1 - class type [C - class, W - lecture, L - laboratory]
 // 2 - teacher
@@ -76,52 +76,52 @@ type Group struct {
 // 6 - place
 // 7 - start date, format: 03-05-20 (5th of March 2020)
 // 8 - frequency, format: number
-// 9 - name
+// 9 - group name
 // 10 - capacity, format: nubmer
-func NewGroup(v []string) (*Group, error) {
-	t := types[v[1]]
+func NewGroup(subjects []string) (*Group, error) {
+	t := types[subjects[1]]
 	if t == "" {
 		return nil, &GroupError{Err: ErrWrongClassType}
 	}
 
-	w := weekdays[v[3]]
+	w := weekdays[subjects[3]]
 	if w == 0 {
 		return nil, &GroupError{Err: ErrWrongWeekday}
 	}
 
-	st, err := time.Parse(timeLayout, v[4])
+	st, err := time.Parse(timeLayout, subjects[4])
 	if err != nil {
 		return nil, &GroupError{Err: err}
 	}
-	et, err := time.Parse(timeLayout, v[5])
-	if err != nil {
-		return nil, &GroupError{Err: err}
-	}
-
-	d, err := time.Parse(dateLayout, v[7])
+	et, err := time.Parse(timeLayout, subjects[5])
 	if err != nil {
 		return nil, &GroupError{Err: err}
 	}
 
-	f, err := strconv.Atoi(v[8])
+	d, err := time.Parse(dateLayout, subjects[7])
 	if err != nil {
 		return nil, &GroupError{Err: err}
 	}
-	c, err := strconv.Atoi(v[10])
+
+	f, err := strconv.Atoi(subjects[8])
+	if err != nil {
+		return nil, &GroupError{Err: err}
+	}
+	c, err := strconv.Atoi(subjects[10])
 	if err != nil {
 		return nil, &GroupError{Err: err}
 	}
 
 	return &Group{
 		Type:      t,
-		Teacher:   v[2],
-		Weekday:   time.Weekday(weekdays[v[3]]),
+		Teacher:   subjects[2],
+		Weekday:   time.Weekday(w),
 		StartTime: st,
 		EndTime:   et,
-		Place:     v[6],
+		Place:     subjects[6],
 		StartDate: d,
 		Frequency: f,
-		Name:      v[9],
+		Name:      subjects[9],
 		Capacity:  c,
 	}, nil
 }

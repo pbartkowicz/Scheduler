@@ -11,7 +11,7 @@ import (
 
 func TestNewGroup(t *testing.T) {
 	type args struct {
-		v []string
+		subjects []string
 	}
 	tests := []struct {
 		name string
@@ -184,7 +184,7 @@ func TestNewGroup(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewGroup(tt.args.v)
+			got, err := NewGroup(tt.args.subjects)
 			if !cmp.Equal(err, tt.err, cmp.Comparer(tools.CompareErrors)) {
 				t.Errorf("NewGroup() error = %v, err %v", err, tt.err)
 			}

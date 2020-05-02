@@ -10,7 +10,7 @@ import (
 
 func TestNewStudent(t *testing.T) {
 	type args struct {
-		v [][]string
+		pref [][]string
 		n string
 	}
 	tests := []struct {
@@ -22,7 +22,7 @@ func TestNewStudent(t *testing.T) {
 		{
 			name: "Incorrect priority",
 			args: args{
-				v: [][]string{
+				pref: [][]string{
 					{"subject1", "g1", "wrong"},
 				},
 				n: "student.xlsx",
@@ -38,7 +38,7 @@ func TestNewStudent(t *testing.T) {
 		{
 			name: "Successfully creates student",
 			args: args{
-				v: [][]string{
+				pref: [][]string{
 					{"subject1", "g1", "1"},
 					{"subject1", "g2", "1"},
 					{"subject2", "g1", "1"},
@@ -61,7 +61,7 @@ func TestNewStudent(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewStudent(tt.args.v, tt.args.n)
+			got, err := NewStudent(tt.args.pref, tt.args.n)
 			if !cmp.Equal(err, tt.err, cmp.Comparer(tools.CompareErrors)) {
 				t.Errorf("NewStudent() error = %v, err %v", err, tt.err)
 			}
