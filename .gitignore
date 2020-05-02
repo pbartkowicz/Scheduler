@@ -15,8 +15,8 @@
 # vendor/
 
 # Data folders
-data/
-template/
+/data/
+/template/
 
 # Compiled files
 bin/
