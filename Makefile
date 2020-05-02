@@ -6,3 +6,11 @@ run:
 
 goTest:
 	go test ./... -cover
+
+clean:
+	rm -rf bin
+
+start:
+	./bin/main
+
+all: clean build goTest start
