@@ -4,7 +4,7 @@ package tools
 import "reflect"
 
 // CompareErrors is used in tests to compare actual error with expected error.
-func CompareErrors(a error, e error) bool {
+func CompareErrors(a, e error) bool {
 	ta := reflect.TypeOf(a)
 	te := reflect.TypeOf(e)
 	if ta != te {
