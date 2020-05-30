@@ -34,10 +34,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := schedule.Enroll(sch, students); err != nil {
-		fmt.Printf("%s\n", err.Error())
-		os.Exit(1)
-	}
+	schedule.Enroll(sch, students)
 }
 
 func readSchedule(gf string) (*university.Schedule, error) {

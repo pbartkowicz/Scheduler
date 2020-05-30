@@ -48,8 +48,7 @@ func TestNewStudent(t *testing.T) {
 				n: "student.xlsx",
 			},
 			want: &Student{
-				Name:       "student",
-				Happieness: 100,
+				Name: "student",
 				Preferences: map[SubjectGroup]int{
 					{"subject1", "g1"}: 1,
 					{"subject1", "g2"}: 1,
@@ -57,6 +56,7 @@ func TestNewStudent(t *testing.T) {
 					{"subject2", "g2"}: 2,
 				},
 				FinalGroups: make(map[string]*Group),
+				Happieness:  make(map[string]float64),
 			},
 		},
 	}

@@ -49,6 +49,7 @@ var weekdays = map[string]time.Weekday{
 }
 
 // Group represents a single students group for one subject.
+// It implements sort.Interface based on studnets' happieness in students list.
 type Group struct {
 	Type             ClassType
 	Teacher          string
@@ -62,6 +63,18 @@ type Group struct {
 	Capacity         int
 	Students         []*Student
 	PriorityStudents []*Student
+}
+
+func (g *Group) Len() int {
+	return len(g.Students)
+}
+
+func (g *Group) Less(i, j int) bool {
+	return g.Students[i].GetHappieness() < g.Students[j].GetHappieness()
+}
+
+func (g *Group) Swap(i, j int) {
+	g.Students[i], g.Students[j] = g.Students[j], g.Students[i]
 }
 
 // NewGroup creates new instance of Group.
@@ -130,4 +143,30 @@ func NewGroup(subjects []string) (*Group, error) {
 // Conflict exists when the number of students in a group is too high.
 func (g *Group) Conflicts() int {
 	return (len(g.PriorityStudents) + len(g.Students)) - g.Capacity
+}
+
+// Collide checks if groups are not in the same time.
+func (g *Group) Collide(a *Group) bool {
+	// TODO: groups can be twice a week, so they can be on the same weekday and at the same hour
+	// Frequency & start date
+
+	if g.Weekday != a.Weekday {
+		return false
+	}
+	// There is a fixed time schedule at the university
+	if g.StartTime != a.StartTime {
+		return false
+	}
+	return true
+}
+
+// RemoveStudent removes student from group.
+func (g *Group) RemoveStudent(st *Student) {
+	newStudents := []*Student{}
+	for _, s := range g.Students {
+		if s != st {
+			newStudents = append(newStudents, s)
+		}
+	}
+	g.Students = newStudents
 }
