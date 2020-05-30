@@ -2,10 +2,23 @@ package university
 
 // Subject represets one subject.
 // It contains all subject's groups.
+// It implements sort.Interface based on number of conflicts in groups list.
 type Subject struct {
 	Name     string
 	Lectures []*Group
 	Groups   []*Group
+}
+
+func (s *Subject) Len() int {
+	return len(s.Groups)
+}
+
+func (s *Subject) Less(i, j int) bool {
+	return s.Groups[i].Conflicts() > s.Groups[j].Conflicts()
+}
+
+func (s *Subject) Swap(i, j int) {
+	s.Groups[i], s.Groups[j] = s.Groups[j], s.Groups[i]
 }
 
 // GetGroupsNames returns names of all groups within a subject.
