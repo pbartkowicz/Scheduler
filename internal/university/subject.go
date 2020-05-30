@@ -18,7 +18,8 @@ func (s *Subject) GetGroupsNames() []string {
 
 func (s *Subject) GetGroup(n string) *Group {
 	for _, g := range s.Groups {
-		if g.Name == n {
+		// Group capacity is set to -1 when group has more than one term.
+		if g.Name == n && g.Capacity != -1 {
 			return g
 		}
 	}
