@@ -7,8 +7,21 @@ const (
 )
 
 // Schedule represents schedule for one semester.
+// It implements sort.Interface based on number of conflicts in subjects list.
 type Schedule struct {
 	Subjects []*Subject
+}
+
+func (s *Schedule) Len() int {
+	return len(s.Subjects)
+}
+
+func (s *Schedule) Less(i, j int) bool {
+	return s.Subjects[i].Conflicts() < s.Subjects[j].Conflicts()
+}
+
+func (s *Schedule) Swap(i, j int) {
+	s.Subjects[i], s.Subjects[j] = s.Subjects[j], s.Subjects[i]
 }
 
 // NewSchedule creates new instance of Schedule.

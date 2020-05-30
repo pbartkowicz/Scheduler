@@ -25,3 +25,14 @@ func (s *Subject) GetGroup(n string) *Group {
 	}
 	return nil
 }
+
+// Conflicts is used to calculate the number of conflicts within one subject.
+func (s *Subject) Conflicts() (res int) {
+	for _, g := range s.Groups {
+		c := g.Conflicts()
+		if c < 0 {
+			res += -c
+		}
+	}
+	return
+}
