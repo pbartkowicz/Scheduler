@@ -129,5 +129,5 @@ func NewGroup(subjects []string) (*Group, error) {
 // Conflicts calculates the number of conflicts within group.
 // Conflict exists when the number of students in a group is too high.
 func (g *Group) Conflicts() int {
-	return g.Capacity - len(g.PriorityStudents) - len(g.Students)
+	return (len(g.PriorityStudents) + len(g.Students)) - g.Capacity
 }

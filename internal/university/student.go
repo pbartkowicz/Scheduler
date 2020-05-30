@@ -26,10 +26,10 @@ func (e *StudentError) Error() string {
 	return fmt.Sprintf("failed to create student [%s]: %s", e.Name, e.Err.Error())
 }
 
-// Student represents a university student and his or her preferences.
+// Student represents a university student and their preferences.
 // Name - student name which is read from file name with preferences.
 // Priority - if set to true, than student will receive the same schedule as in ChosenGroups.
-// Happieness -
+// Happieness - reflects how much final schedule is similar to their preferences.
 // Preferences - contains list of groups with priorities for each subject, one priority for group.
 // - Priorities have to start from 1 (highest).
 // - Priorities have to be consecutive and they can be repeated.
@@ -97,7 +97,8 @@ func (s *Student) validate() error {
 	return nil
 }
 
-func (s *Student) GetPrefredGroup(subject string, groups []string) (res string) {
+// GetPreferredGroup returns a name of the group to which student wants to be assigned the most.
+func (s *Student) GetPreferredGroup(subject string, groups []string) (res string) {
 	p := math.MaxInt64
 	for _, g := range groups {
 		v := s.Preferences[SubjectGroup{subject, g}]
@@ -107,4 +108,9 @@ func (s *Student) GetPrefredGroup(subject string, groups []string) (res string) 
 		}
 	}
 	return
+}
+
+// SetFinalGroup sets a group to which student was assigned.
+func (s *Student) SetFinalGroup(sub *Subject) {
+	s.FinalGroups[sub.Name] = sub.GetStudentGroup(s.Name)
 }

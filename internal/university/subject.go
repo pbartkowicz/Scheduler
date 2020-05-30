@@ -8,6 +8,7 @@ type Subject struct {
 	Groups   []*Group
 }
 
+// GetGroupsNames returns names of all groups within a subject.
 func (s *Subject) GetGroupsNames() []string {
 	var gn []string
 	for _, g := range s.Groups {
@@ -16,10 +17,12 @@ func (s *Subject) GetGroupsNames() []string {
 	return gn
 }
 
-func (s *Subject) GetGroup(n string) *Group {
+// GetGroup returns a group which name is the same as passed.
+// It returns nil if a group was not found.
+func (s *Subject) GetGroup(gn string) *Group {
 	for _, g := range s.Groups {
 		// Group capacity is set to -1 when group has more than one term.
-		if g.Name == n && g.Capacity != -1 {
+		if g.Name == gn && g.Capacity != -1 {
 			return g
 		}
 	}
@@ -30,9 +33,27 @@ func (s *Subject) GetGroup(n string) *Group {
 func (s *Subject) Conflicts() (res int) {
 	for _, g := range s.Groups {
 		c := g.Conflicts()
-		if c < 0 {
-			res += -c
+		if c > 0 {
+			res += c
 		}
 	}
 	return
+}
+
+// GetStudentGroup returns a group to which a student was assigned.
+// It receives student's name.
+func (s *Subject) GetStudentGroup(sn string) *Group {
+	for _, g := range s.Groups {
+		for _, st := range g.PriorityStudents {
+			if st.Name == sn {
+				return g
+			}
+		}
+		for _, st := range g.Students {
+			if st.Name == sn {
+				return g
+			}
+		}
+	}
+	return nil
 }
