@@ -11,13 +11,13 @@ import (
 func TestNewStudent(t *testing.T) {
 	type args struct {
 		pref [][]string
-		n string
+		n    string
 	}
 	tests := []struct {
 		name string
 		args args
 		want *Student
-		err error
+		err  error
 	}{
 		{
 			name: "Incorrect priority",
@@ -33,6 +33,7 @@ func TestNewStudent(t *testing.T) {
 					Num:  "wrong",
 					Err:  strconv.ErrSyntax,
 				},
+				Name: "student",
 			},
 		},
 		{
@@ -47,7 +48,7 @@ func TestNewStudent(t *testing.T) {
 				n: "student.xlsx",
 			},
 			want: &Student{
-				Name: "student",
+				Name:       "student",
 				Happieness: 100,
 				Preferences: map[SubjectGroup]int{
 					{"subject1", "g1"}: 1,
@@ -73,43 +74,49 @@ func TestNewStudent(t *testing.T) {
 }
 
 func TestStudent_validate(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		name string
-		s *Student
-		err error
+		s    *Student
+		err  error
 	}{
 		{
 			name: "Fails on first number lesser than one",
 			s: &Student{
+				Name: "student",
 				Preferences: map[SubjectGroup]int{
 					{"subject1", "g1"}: -1,
 				},
 			},
 			err: &StudentError{
-				Err: ErrWrongPriority,
+				Err:  ErrWrongPriority,
+				Name: "student",
 			},
 		},
 		{
 			name: "Fails on number greater than one",
 			s: &Student{
+				Name: "student",
 				Preferences: map[SubjectGroup]int{
 					{"subject1", "g1"}: 10,
 				},
 			},
 			err: &StudentError{
-				Err: ErrWrongPriority,
+				Err:  ErrWrongPriority,
+				Name: "student",
 			},
 		},
 		{
 			name: "Fails difference bigger than one",
 			s: &Student{
+				Name: "student",
 				Preferences: map[SubjectGroup]int{
 					{"subject1", "g1"}: 1,
 					{"subject1", "g2"}: 3,
 				},
 			},
 			err: &StudentError{
-				Err: ErrWrongSubPriority,
+				Err:  ErrWrongSubPriority,
+				Name: "student",
 			},
 		},
 		{

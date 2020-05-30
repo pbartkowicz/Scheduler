@@ -2,6 +2,7 @@ package university
 
 import (
 	"errors"
+	"fmt"
 	"math"
 	"sort"
 	"strconv"
@@ -17,11 +18,12 @@ var (
 
 // StudentError represents an error struct returned when creating new Student.
 type StudentError struct {
-	Err error
+	Name string
+	Err  error
 }
 
 func (e *StudentError) Error() string {
-	return "failed to create student: " + e.Err.Error()
+	return fmt.Sprintf("failed to create student [%s]: %s", e.Name, e.Err.Error())
 }
 
 // Student represents a university student and his or her preferences.
@@ -65,7 +67,7 @@ func NewStudent(pref [][]string, n string) (*Student, error) {
 	for _, p := range pref {
 		pr, err := strconv.Atoi(p[2])
 		if err != nil {
-			return nil, &StudentError{Err: err}
+			return nil, &StudentError{Err: err, Name: s.Name}
 		}
 		s.Preferences[SubjectGroup{p[0], p[1]}] = pr
 	}
@@ -83,12 +85,12 @@ func (s *Student) validate() error {
 	}
 	for _, v := range sub {
 		if v[0] != 1 {
-			return &StudentError{Err: ErrWrongPriority}
+			return &StudentError{Err: ErrWrongPriority, Name: s.Name}
 		}
 		for i := 1; i < v[len(v)-1]; i++ {
 			diff := v[i] - v[i-1]
 			if diff > 1 {
-				return &StudentError{Err: ErrWrongSubPriority}
+				return &StudentError{Err: ErrWrongSubPriority, Name: s.Name}
 			}
 		}
 	}
