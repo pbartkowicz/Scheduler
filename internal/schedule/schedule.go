@@ -10,17 +10,17 @@ import (
 // Enroll ... - move to university?
 func Enroll(schedule *university.Schedule, students []*university.Student) {
 	assign(schedule, students)
+	// Sort subjects by number of conflicts
+	sort.Sort(schedule)
 	for _, s := range schedule.Subjects {
 		fmt.Printf("\n%+v\n", s.Name)
 		for _, g := range s.Groups {
 			fmt.Printf("%+v: %+v\n", g.Name, len(g.Students)+len(g.PriorityStudents))
 		}
 	}
-	// Sort subjects by number of conflicts
-	sort.Sort(schedule)
 	resolve(schedule, students)
 
-	for _, s := range schedule.Subjects {
+	/*for _, s := range schedule.Subjects {
 		fmt.Printf("\n%+v\n", s.Name)
 		for _, g := range s.Groups {
 			fmt.Printf("%+v: %+v\n", g.Name, len(g.Students)+len(g.PriorityStudents))
@@ -29,7 +29,7 @@ func Enroll(schedule *university.Schedule, students []*university.Student) {
 
 	for _, st := range students {
 		fmt.Printf("\n%s: %+v\n", st.Name, st.GetHappieness())
-	}
+	}*/
 }
 
 // assign students to preferred groups
@@ -57,6 +57,10 @@ func assign(schedule *university.Schedule, students []*university.Student) {
 }
 
 func resolve(schedule *university.Schedule, students []*university.Student) {
+	// Sort groups by number of conflicts [descending]
+	for _, s := range schedule.Subjects {
+		sort.Sort(s)
+	}
 	for _, s := range schedule.Subjects {
 		if s.Conflicts() == 0 {
 			for _, st := range students {
@@ -64,38 +68,41 @@ func resolve(schedule *university.Schedule, students []*university.Student) {
 			}
 			continue
 		}
-		// Sort groups by number of conflicts [descending]
-		sort.Sort(s)
+		// Sort students within group by happieness [descending]
+		for _, g := range s.Groups {
+			sort.Sort(g)
+		}
 		sg := &StudentGroup{}
 		for i, g := range s.Groups {
 			if g.Capacity == -1 {
 				continue
 			}
-			// Sort students within group by happieness [ascending]
-			sort.Sort(g)
-			// Get students who likes other groups
-			sgs := getStudents(i, s, g.Students)
-			// Get students who can be moved to other groups
-			mSgs := getStudentsToMove(i, s, g.Students)
 			c := g.Conflicts()
 			if c <= 0 {
 				continue
 			}
-			fmt.Printf("\n%s:%s:%v:%v:%v", s.Name, g.Name, len(sgs), len(mSgs), c)
+			fmt.Printf("\nConflicts:%v", s.Conflicts())
+			// Get students who likes other groups
+			sgs := getStudents(i, true, s, g.Students)
+			// Get students who can be moved to other groups and don't like them
+			mSgs := getStudents(i, false, s, g.Students)
+
+			fmt.Printf("\n%s:%s:%v:%v:%v\n", s.Name, g.Name, len(sgs), len(mSgs), c)
+
 			for ; c > 0; c-- {
 				// Move students who like other groups and can be moved
 				if len(sgs) != 0 {
 					sg, sgs = pop(sgs)
-					sg.group.Students = append(sg.group.Students, sg.student)
-					g.RemoveStudent(sg.student)
+					sg.Group.Students = append(sg.Group.Students, sg.Student)
+					g.RemoveStudent(sg.Student)
 					continue
 				}
 
 				sg, mSgs = pop(mSgs)
-				sg.group.Students = append(sg.group.Students, sg.student)
-				g.RemoveStudent(sg.student)
+				sg.Group.Students = append(sg.Group.Students, sg.Student)
+				g.RemoveStudent(sg.Student)
 				// Change student happieness
-				sg.student.CalculateHappieness(s.Name)
+				sg.Student.CalculateHappieness(s.Name)
 			}
 		}
 		// Set final groups for this subject
@@ -108,28 +115,21 @@ func resolve(schedule *university.Schedule, students []*university.Student) {
 
 // StudentGroup is used to store information about students who likes other groups and can be moved to them.
 type StudentGroup struct {
-	student *university.Student
-	group   *university.Group
+	Student *university.Student
+	Group   *university.Group
 }
 
-// getStudents returns students who like other groups and can be moved to them.
-func getStudents(i int, s *university.Subject, students []*university.Student) (sgs []*StudentGroup) {
-	for ; i < len(s.Groups); i++ {
-		for _, st := range students {
-			if s.Groups[i].Capacity != -1 && st.Likes(s.Name, s.Groups[i].Name) && st.CanMove(s.Name, s.Groups[i]) {
-				sgs = append(sgs, &StudentGroup{student: st, group: s.Groups[i]})
+// getStudents returns students who can be moved to other groups and like or doesn't like being moved.
+// TODO: Refactor it to one
+func getStudents(i int, likes bool, s *university.Subject, students []*university.Student) (sgs []*StudentGroup) {
+	for _, st := range students {
+		if likes {
+			if s.Groups[i+1].Capacity != -1 && st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
+				sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
 			}
-		}
-	}
-	return
-}
-
-// getStudentsToMove returns students who can be moved to other groups.
-func getStudentsToMove(i int, s *university.Subject, students []*university.Student) (sgs []*StudentGroup) {
-	for ; i < len(s.Groups); i++ {
-		for _, st := range students {
-			if s.Groups[i].Capacity != -1 && !st.Likes(s.Name, s.Groups[i].Name) && st.CanMove(s.Name, s.Groups[i]) {
-				sgs = append(sgs, &StudentGroup{student: st, group: s.Groups[i]})
+		} else {
+			if s.Groups[i+1].Capacity != -1 && !st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
+				sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
 			}
 		}
 	}
@@ -138,7 +138,6 @@ func getStudentsToMove(i int, s *university.Subject, students []*university.Stud
 
 // pop is used to remove first StudentGroup from a slice and return it.
 func pop(sts []*StudentGroup) (*StudentGroup, []*StudentGroup) {
-	first := sts[0]
-	sts[len(sts)-1], sts[0] = sts[0], sts[len(sts)-1]
-	return first, sts[:len(sts)-1]
+	first, sts := sts[0], sts[1:]
+	return first, sts
 }

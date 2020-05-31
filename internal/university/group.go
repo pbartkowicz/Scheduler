@@ -4,8 +4,6 @@ import (
 	"errors"
 	"strconv"
 	"time"
-
-	"github.com/google/go-cmp/cmp"
 )
 
 var (
@@ -166,7 +164,7 @@ func (g *Group) Collide(a *Group) bool {
 func (g *Group) RemoveStudent(st *Student) {
 	newStudents := []*Student{}
 	for _, s := range g.Students {
-		if !cmp.Equal(st, s) {
+		if st.Name == s.Name {
 			newStudents = append(newStudents, s)
 		}
 	}

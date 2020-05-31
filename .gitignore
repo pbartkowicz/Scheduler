@@ -23,3 +23,6 @@ bin/
 
 # Workspace configuration
 *.code-workspace
+
+# Settings
+.vscode
