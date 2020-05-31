@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"time"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 var (
@@ -70,7 +72,7 @@ func (g *Group) Len() int {
 }
 
 func (g *Group) Less(i, j int) bool {
-	return g.Students[i].GetHappieness() < g.Students[j].GetHappieness()
+	return g.Students[i].GetHappieness() > g.Students[j].GetHappieness()
 }
 
 func (g *Group) Swap(i, j int) {
@@ -164,7 +166,7 @@ func (g *Group) Collide(a *Group) bool {
 func (g *Group) RemoveStudent(st *Student) {
 	newStudents := []*Student{}
 	for _, s := range g.Students {
-		if s != st {
+		if !cmp.Equal(st, s) {
 			newStudents = append(newStudents, s)
 		}
 	}

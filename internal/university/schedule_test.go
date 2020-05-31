@@ -1,6 +1,7 @@
 package university
 
 import (
+	"sort"
 	"testing"
 	"time"
 
@@ -156,6 +157,188 @@ func TestSchedule_GetSubject(t *testing.T) {
 			got := tt.s.GetSubject(tt.args.n)
 			if !cmp.Equal(got, tt.want) {
 				t.Errorf("Schedule.GetSubject() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestSortSchedule(t *testing.T) {
+	tests := []struct {
+		name string
+		sch  *Schedule
+		want *Schedule
+	}{
+		{
+			name: "Successfully sort subjects by number of conflicts",
+			sch: &Schedule{
+				Subjects: []*Subject{
+					{
+						Name: "Subject1",
+						Groups: []*Group{
+							{
+								Name:     "1",
+								Capacity: 2,
+								Students: []*Student{
+									{
+										Name: "a",
+									},
+									{
+										Name: "b",
+									},
+									{
+										Name: "c",
+									},
+									{
+										Name: "d",
+									},
+								},
+							},
+							{
+								Name:     "2",
+								Capacity: 2,
+								Students: []*Student{},
+							},
+						},
+					},
+					{
+						Name: "Subject3",
+						Groups: []*Group{
+							{
+								Name:     "1",
+								Capacity: 1,
+								Students: []*Student{
+									{
+										Name: "a",
+									},
+									{
+										Name: "b",
+									},
+									{
+										Name: "c",
+									},
+									{
+										Name: "d",
+									},
+								},
+							},
+							{
+								Name:     "2",
+								Capacity: 1,
+							},
+							{
+								Name:     "3",
+								Capacity: 1,
+							},
+							{
+								Name:     "4",
+								Capacity: 1,
+							},
+						},
+					},
+					{
+						Name: "Subject2",
+						Groups: []*Group{
+							{
+								Name:     "1",
+								Capacity: 1,
+								Students: []*Student{
+									{
+										Name: "a",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			want: &Schedule{
+				Subjects: []*Subject{
+					{
+						Name: "Subject2",
+						Groups: []*Group{
+							{
+								Name:     "1",
+								Capacity: 1,
+								Students: []*Student{
+									{
+										Name: "a",
+									},
+								},
+							},
+						},
+					},
+					{
+						Name: "Subject1",
+						Groups: []*Group{
+							{
+								Name:     "1",
+								Capacity: 2,
+								Students: []*Student{
+									{
+										Name: "a",
+									},
+									{
+										Name: "b",
+									},
+									{
+										Name: "c",
+									},
+									{
+										Name: "d",
+									},
+								},
+							},
+							{
+								Name:     "2",
+								Capacity: 2,
+								Students: []*Student{},
+							},
+						},
+					},
+					{
+						Name: "Subject3",
+						Groups: []*Group{
+							{
+								Name:     "1",
+								Capacity: 1,
+								Students: []*Student{
+									{
+										Name: "a",
+									},
+									{
+										Name: "b",
+									},
+									{
+										Name: "c",
+									},
+									{
+										Name: "d",
+									},
+								},
+							},
+							{
+								Name:     "2",
+								Capacity: 1,
+							},
+							{
+								Name:     "3",
+								Capacity: 1,
+							},
+							{
+								Name:     "4",
+								Capacity: 1,
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			sort.Sort(tt.sch)
+			if !cmp.Equal(tt.sch, tt.want) {
+				t.Errorf("sort.Sort(Schedule) got = %v, want %v", tt.sch, tt.want)
 			}
 		})
 	}

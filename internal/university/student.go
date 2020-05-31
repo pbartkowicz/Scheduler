@@ -131,7 +131,7 @@ func (s *Student) CanMove(sub string, g *Group) bool {
 	return true
 }
 
-// GetHappieness is used to count student's happieness
+// GetHappieness is used to retrieve student's happieness
 func (s *Student) GetHappieness() (res float64) {
 	for _, v := range s.Happieness {
 		res += v

@@ -25,7 +25,9 @@ func (s *Subject) Swap(i, j int) {
 func (s *Subject) GetGroupsNames() []string {
 	var gn []string
 	for _, g := range s.Groups {
-		gn = append(gn, g.Name)
+		if g.Capacity != -1 {
+			gn = append(gn, g.Name)
+		}
 	}
 	return gn
 }
