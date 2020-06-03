@@ -4,7 +4,7 @@ build:
 run:
 	go run cmd/main.go
 
-goTest:
+go-test:
 	go test ./... -cover
 
 clean:
