@@ -12,15 +12,15 @@ func Enroll(schedule *university.Schedule, students []*university.Student) {
 	assign(schedule, students)
 	// Sort subjects by number of conflicts
 	sort.Sort(schedule)
-	for _, s := range schedule.Subjects {
+	/*for _, s := range schedule.Subjects {
 		fmt.Printf("\n%+v\n", s.Name)
 		for _, g := range s.Groups {
 			fmt.Printf("%+v: %+v\n", g.Name, len(g.Students)+len(g.PriorityStudents))
 		}
-	}
+	}*/
 	resolve(schedule, students)
 
-	for _, s := range schedule.Subjects {
+	/*for _, s := range schedule.Subjects {
 		fmt.Printf("\n%+v\n", s.Name)
 		for _, g := range s.Groups {
 			fmt.Printf("%+v: %+v\n", g.Name, len(g.Students)+len(g.PriorityStudents))
@@ -29,7 +29,20 @@ func Enroll(schedule *university.Schedule, students []*university.Student) {
 
 	for _, st := range students {
 		fmt.Printf("\n%s: %+v\n", st.Name, st.GetHappieness())
+	}*/
+	printHappieness(students)
+}
+
+func printHappieness(students []*university.Student) {
+	var happy float64
+	var stLen int
+	for _, st := range students {
+		if !st.Priority {
+			stLen++
+			happy += st.GetHappieness()
+		}
 	}
+	fmt.Printf("\nStudents happieness: %.2f\n", happy/float64(stLen))
 }
 
 // assign students to preferred groups
@@ -78,13 +91,13 @@ func resolve(schedule *university.Schedule, students []*university.Student) {
 			if c <= 0 {
 				continue
 			}
-			fmt.Printf("\nConflicts:%v", s.Conflicts())
+			//fmt.Printf("\nConflicts:%v", s.Conflicts())
 			// Get students who likes other groups
 			sgs := getStudents(i, true, s, g.Students)
 			// Get students who can be moved to other groups and don't like them
 			mSgs := getStudents(i, false, s, g.Students)
 
-			fmt.Printf("\n%s:%s:%v:%v:%v\n", s.Name, g.Name, len(sgs), len(mSgs), c)
+			//fmt.Printf("\n%s:%s:%v:%v:%v\n", s.Name, g.Name, len(sgs), len(mSgs), c)
 
 			for ; c > 0; c-- {
 				// Move students who like other groups and can be moved
