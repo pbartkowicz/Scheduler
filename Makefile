@@ -13,4 +13,4 @@ clean:
 start:
 	./bin/main
 
-all: clean build goTest start
+all: clean build go-test start

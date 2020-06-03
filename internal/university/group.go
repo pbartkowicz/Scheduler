@@ -8,7 +8,7 @@ import (
 
 var (
 	// ErrWrongClassType is returned when a passed class type is incorrect.
-	ErrWrongClassType = errors.New("incorrect class type, available types: C - Class, W - Lecture, L - Laboratory")
+	ErrWrongClassType = errors.New("incorrect class type, available types: Class, Lecture, Laboratory")
 	// ErrWrongWeekday is returned when a passed weekday is incorrect.
 	ErrWrongWeekday = errors.New("incorrect weekday, available weekdays: Monday, Tuesday, Wednesday, Thursday, Friday")
 )
@@ -35,9 +35,9 @@ const (
 )
 
 var types = map[string]ClassType{
-	"C": Class,
-	"W": Lecture,
-	"L": Laboratory,
+	"Class":      Class,
+	"Lecture":    Lecture,
+	"Laboratory": Laboratory,
 }
 
 var weekdays = map[string]time.Weekday{
@@ -82,7 +82,7 @@ func (g *Group) Swap(i, j int) {
 // It returns GroupError when passed parameters are invalid.
 // subjects:
 // 0 - subject name
-// 1 - class type [C - class, W - lecture, L - laboratory]
+// 1 - class type [Class, Lecture, Laboratory]
 // 2 - teacher
 // 3 - weekday [Monday, Tuesday, Wednesday, Thursday, Friday]
 // 4 - start time, format: 14:00

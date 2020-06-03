@@ -38,7 +38,7 @@ func main() {
 }
 
 func readSchedule(gf string) (*university.Schedule, error) {
-	g, err := xlsx.Read(gf, true)
+	g, err := xlsx.Read(gf)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func readStudents(sd string) ([]*university.Student, error) {
 	}
 	var students []*university.Student
 	for _, sf := range sfs {
-		pref, err := xlsx.Read(sd+"/"+sf.Name(), true)
+		pref, err := xlsx.Read(sd + "/" + sf.Name())
 		if err != nil {
 			return nil, err
 		}
@@ -74,7 +74,7 @@ func readStudents(sd string) ([]*university.Student, error) {
 }
 
 func readPriorityStudents(psf string, students []*university.Student) error {
-	ps, err := xlsx.Read(psf, false)
+	ps, err := xlsx.Read(psf)
 	if err != nil {
 		return err
 	}

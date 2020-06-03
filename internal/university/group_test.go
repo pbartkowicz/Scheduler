@@ -37,7 +37,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"wrong",
 				},
@@ -51,7 +51,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"Thursday",
 					"14:00:00",
@@ -69,7 +69,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"Thursday",
 					"14:00",
@@ -88,7 +88,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"Thursday",
 					"14:00",
@@ -109,7 +109,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"Thursday",
 					"14:00",
@@ -132,7 +132,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"Thursday",
 					"14:00",
@@ -157,7 +157,7 @@ func TestNewGroup(t *testing.T) {
 			args: args{
 				[]string{
 					"Programming",
-					"L",
+					"Laboratory",
 					"teacher",
 					"Thursday",
 					"14:00",

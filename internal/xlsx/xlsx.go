@@ -44,7 +44,7 @@ func (e *Error) Error() string {
 // Read retrieves data from the first sheet of file n.
 // If skip is set to true, it skips the first line.
 // It returns an error if an absolute path of file was not found
-func Read(n string, skip bool) ([][]string, error) {
+func Read(n string) ([][]string, error) {
 	p, err := filepath.Abs(n)
 	if err != nil {
 		return nil, &Error{Op: ReadOp, File: n, Err: ErrPathNotExists}
@@ -61,12 +61,16 @@ func Read(n string, skip bool) ([][]string, error) {
 	if err != nil {
 		return nil, &Error{Op: ReadOp, File: n, Err: ErrRows}
 	}
-	if skip {
-		rows.Next()
-	}
+	// Skip heading
+	rows.Next()
 	data := make([][]string, 0)
 	for rows.Next() {
 		data = append(data, rows.Columns())
 	}
 	return data, nil
+}
+
+// Write creates file with a given name in a given path and saves passed data in it.
+func Write(n, p string, d [][]string) error {
+	return nil
 }

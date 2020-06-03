@@ -39,7 +39,7 @@ func TestNewSchedule(t *testing.T) {
 				groups: [][]string{
 					{
 						"Programming",
-						"W",
+						"Lecture",
 						"teacher",
 						"Thursday",
 						"14:00",
@@ -52,7 +52,7 @@ func TestNewSchedule(t *testing.T) {
 					},
 					{
 						"Programming",
-						"C",
+						"Class",
 						"teacher",
 						"Monday",
 						"14:00",

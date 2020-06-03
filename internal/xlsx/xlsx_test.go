@@ -22,8 +22,7 @@ func TestError(t *testing.T) {
 
 func TestRead(t *testing.T) {
 	type args struct {
-		n    string
-		skip bool
+		n string
 	}
 	tests := []struct {
 		name string
@@ -43,24 +42,11 @@ func TestRead(t *testing.T) {
 			},
 		},
 		{
-			name: "Successfully reads data with skipping first row",
+			name: "Successfully reads data",
 			args: args{
-				n:    "../../test/data/xlsx/skip.xlsx",
-				skip: true,
+				n: "../../test/data/xlsx/read.xlsx",
 			},
 			want: [][]string{
-				{"AA", "AA"},
-				{"BB", "BB"},
-				{"CC", "CC"},
-			},
-		},
-		{
-			name: "Successfully reads data without shipping first row",
-			args: args{
-				n: "../../test/data/xlsx/skip.xlsx",
-			},
-			want: [][]string{
-				{"name", "surname"},
 				{"AA", "AA"},
 				{"BB", "BB"},
 				{"CC", "CC"},
@@ -69,7 +55,7 @@ func TestRead(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := Read(tt.args.n, tt.args.skip)
+			got, err := Read(tt.args.n)
 			if !tools.CompareErrors(err, tt.err) {
 				t.Errorf("Read() error = %v, err %v", err, tt.err)
 			}
