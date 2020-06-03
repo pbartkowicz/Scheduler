@@ -49,7 +49,7 @@ var weekdays = map[string]time.Weekday{
 }
 
 // Group represents a single students group for one subject.
-// It implements sort.Interface based on studnets' happieness in students list.
+// It implements sort.Interface based on students' happieness in students list.
 type Group struct {
 	Type             ClassType
 	Teacher          string

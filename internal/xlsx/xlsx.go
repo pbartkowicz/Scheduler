@@ -3,6 +3,7 @@ package xlsx
 
 import (
 	"errors"
+	"fmt"
 	"path/filepath"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
@@ -44,7 +45,7 @@ func (e *Error) Error() string {
 // Read retrieves data from the first sheet of file n.
 // If skip is set to true, it skips the first line.
 // It returns an error if an absolute path of file was not found
-func Read(n string) ([][]string, error) {
+func Read(n string, skip bool) ([][]string, error) {
 	p, err := filepath.Abs(n)
 	if err != nil {
 		return nil, &Error{Op: ReadOp, File: n, Err: ErrPathNotExists}
@@ -62,7 +63,9 @@ func Read(n string) ([][]string, error) {
 		return nil, &Error{Op: ReadOp, File: n, Err: ErrRows}
 	}
 	// Skip heading
-	rows.Next()
+	if skip {
+		rows.Next()
+	}
 	data := make([][]string, 0)
 	for rows.Next() {
 		data = append(data, rows.Columns())
@@ -71,6 +74,16 @@ func Read(n string) ([][]string, error) {
 }
 
 // Write creates file with a given name in a given path and saves passed data in it.
-func Write(n, p string, d [][]string) error {
-	return nil
+func Write(n, p string, dd [][]string) error {
+	rp, err := filepath.Abs(p)
+	if err != nil {
+		return &Error{Op: WriteOp, File: p, Err: ErrPathNotExists}
+	}
+	f := excelize.NewFile()
+	s := "Sheet1"
+	f.NewSheet(s)
+	for i, d := range dd {
+		f.SetSheetRow(s, fmt.Sprintf("A%v", i+1), &d)
+	}
+	return f.SaveAs(fmt.Sprintf("%s/%s.xlsx", rp, n))
 }
