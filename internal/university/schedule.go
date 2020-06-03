@@ -43,9 +43,13 @@ func NewSchedule(groups [][]string) (*Schedule, error) {
 		}
 		if ng.Type == Lecture {
 			sub.Lectures = append(sub.Lectures, ng)
-		} else {
-			sub.Groups = append(sub.Groups, ng)
+			continue
 		}
+		if gr := sub.GetGroup(ng.Name); gr != nil {
+			gr.SubGroups = append(gr.SubGroups, ng)
+			continue
+		}
+		sub.Groups = append(sub.Groups, ng)
 	}
 	return s, nil
 }

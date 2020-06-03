@@ -95,10 +95,6 @@ func Test_getStudents(t *testing.T) {
 							Name:     "1",
 						},
 						{
-							Capacity: -1,
-							Name:     "1",
-						},
-						{
 							Capacity: 5,
 							Name:     "2",
 						},
@@ -186,58 +182,12 @@ func Test_getStudents(t *testing.T) {
 						Name:     "2",
 					},
 				},
-				{
-					Student: &university.Student{
-						Name: "a",
-						Preferences: map[university.SubjectGroup]int{
-							{
-								Subject: "Math",
-								Group:   "1",
-							}: 1,
-							{
-								Subject: "Math",
-								Group:   "2",
-							}: 1,
-							{
-								Subject: "Math",
-								Group:   "3",
-							}: 1,
-						},
-					},
-					Group: &university.Group{
-						Capacity: 5,
-						Name:     "3",
-					},
-				},
-				{
-					Student: &university.Student{
-						Name: "c",
-						Preferences: map[university.SubjectGroup]int{
-							{
-								Subject: "Math",
-								Group:   "1",
-							}: 1,
-							{
-								Subject: "Math",
-								Group:   "2",
-							}: 2,
-							{
-								Subject: "Math",
-								Group:   "3",
-							}: 1,
-						},
-					},
-					Group: &university.Group{
-						Capacity: 5,
-						Name:     "3",
-					},
-				},
 			},
 		},
 		{
 			name: "Return students who can be moved to other groups",
 			args: args{
-				i: 0,
+				i: 1,
 				s: &university.Subject{
 					Name: "Math",
 					Groups: []*university.Group{
@@ -246,10 +196,6 @@ func Test_getStudents(t *testing.T) {
 							Name:     "1",
 						},
 						{
-							Capacity: -1,
-							Name:     "1",
-						},
-						{
 							Capacity: 5,
 							Name:     "2",
 						},
@@ -318,29 +264,6 @@ func Test_getStudents(t *testing.T) {
 					Group: &university.Group{
 						Capacity: 5,
 						Name:     "3",
-					},
-				},
-				{
-					Student: &university.Student{
-						Name: "b",
-						Preferences: map[university.SubjectGroup]int{
-							{
-								Subject: "Math",
-								Group:   "1",
-							}: 1,
-							{
-								Subject: "Math",
-								Group:   "2",
-							}: 2,
-							{
-								Subject: "Math",
-								Group:   "3",
-							}: 3,
-						},
-					},
-					Group: &university.Group{
-						Capacity: 5,
-						Name:     "2",
 					},
 				},
 				{

@@ -116,16 +116,8 @@ func TestSubject_GetGroupsNames(t *testing.T) {
 						Capacity: 10,
 					},
 					{
-						Name:     "1",
-						Capacity: -1,
-					},
-					{
 						Name:     "2",
 						Capacity: 3,
-					},
-					{
-						Name:     "4",
-						Capacity: -1,
 					},
 				},
 			},

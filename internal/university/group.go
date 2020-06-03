@@ -63,6 +63,7 @@ type Group struct {
 	Capacity         int
 	Students         []*Student
 	PriorityStudents []*Student
+	SubGroups        []*Group
 }
 
 func (g *Group) Len() int {
@@ -164,7 +165,7 @@ func (g *Group) Collide(a *Group) bool {
 func (g *Group) RemoveStudent(st *Student) {
 	newStudents := []*Student{}
 	for _, s := range g.Students {
-		if st.Name == s.Name {
+		if st.Name != s.Name {
 			newStudents = append(newStudents, s)
 		}
 	}

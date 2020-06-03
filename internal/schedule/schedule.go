@@ -20,7 +20,7 @@ func Enroll(schedule *university.Schedule, students []*university.Student) {
 	}
 	resolve(schedule, students)
 
-	/*for _, s := range schedule.Subjects {
+	for _, s := range schedule.Subjects {
 		fmt.Printf("\n%+v\n", s.Name)
 		for _, g := range s.Groups {
 			fmt.Printf("%+v: %+v\n", g.Name, len(g.Students)+len(g.PriorityStudents))
@@ -29,7 +29,7 @@ func Enroll(schedule *university.Schedule, students []*university.Student) {
 
 	for _, st := range students {
 		fmt.Printf("\n%s: %+v\n", st.Name, st.GetHappieness())
-	}*/
+	}
 }
 
 // assign students to preferred groups
@@ -74,9 +74,6 @@ func resolve(schedule *university.Schedule, students []*university.Student) {
 		}
 		sg := &StudentGroup{}
 		for i, g := range s.Groups {
-			if g.Capacity == -1 {
-				continue
-			}
 			c := g.Conflicts()
 			if c <= 0 {
 				continue
@@ -124,11 +121,11 @@ type StudentGroup struct {
 func getStudents(i int, likes bool, s *university.Subject, students []*university.Student) (sgs []*StudentGroup) {
 	for _, st := range students {
 		if likes {
-			if s.Groups[i+1].Capacity != -1 && st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
+			if st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
 				sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
 			}
 		} else {
-			if s.Groups[i+1].Capacity != -1 && !st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
+			if !st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
 				sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
 			}
 		}
