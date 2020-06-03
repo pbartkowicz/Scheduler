@@ -130,17 +130,13 @@ type StudentGroup struct {
 }
 
 // getStudents returns students who can be moved to other groups and like or doesn't like being moved.
-// TODO: Refactor it to one
 func getStudents(i int, likes bool, s *university.Subject, students []*university.Student) (sgs []*StudentGroup) {
 	for _, st := range students {
-		if likes {
-			if st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
-				sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
-			}
-		} else {
-			if !st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
-				sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
-			}
+		if likes && st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
+			sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
+		}
+		if !likes && !st.Likes(s.Name, s.Groups[i+1].Name) && st.CanMove(s.Name, s.Groups[i+1]) {
+			sgs = append(sgs, &StudentGroup{Student: st, Group: s.Groups[i+1]})
 		}
 	}
 	return
