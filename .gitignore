@@ -16,7 +16,6 @@
 
 # Data folders
 /data/
-/template/
 
 # Compiled files
 bin/
