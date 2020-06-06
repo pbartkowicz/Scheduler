@@ -41,6 +41,10 @@ func main() {
 		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}
+	if err := saveSubjects(sch, *rf); err != nil {
+		fmt.Printf("%s\n", err.Error())
+		os.Exit(1)
+	}
 }
 
 func readSchedule(gf string) (*university.Schedule, error) {
@@ -102,8 +106,24 @@ func readPriorityStudents(psf string, students []*university.Student) error {
 
 func saveStudents(students []*university.Student, p string) error {
 	for _, st := range students {
-		res := st.Save()
-		if err := xlsx.Write(st.Name, p, res); err != nil {
+		if err := xlsx.Write(st.Name, p, st.Name, st.Save()); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func saveSubjects(schedule *university.Schedule, p string) error {
+	for _, sub := range schedule.Subjects {
+		saveGroups(sub.Name, p, sub.Groups)
+		saveGroups(sub.Name, p, sub.Lectures)
+	}
+	return nil
+}
+
+func saveGroups(sn, p string, grs []*university.Group) error {
+	for _, g := range grs {
+		if err := xlsx.Write(sn, p, g.Name, g.Save()); err != nil {
 			return err
 		}
 	}

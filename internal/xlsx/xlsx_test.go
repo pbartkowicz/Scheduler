@@ -75,6 +75,7 @@ func TestWrite(t *testing.T) {
 	type args struct {
 		n  string
 		p  string
+		s  string
 		dd [][]string
 	}
 	tests := []struct {
@@ -88,6 +89,7 @@ func TestWrite(t *testing.T) {
 			args: args{
 				n: "new-file",
 				p: p,
+				s: "Sheet1",
 				dd: [][]string{
 					{
 						"aaa", "aaa", "aaa",
@@ -119,7 +121,7 @@ func TestWrite(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := Write(tt.args.n, tt.args.p, tt.args.dd)
+			err := Write(tt.args.n, tt.args.p, tt.args.s, tt.args.dd)
 			if !tools.CompareErrors(err, tt.err) {
 				t.Errorf("Write() error = %v, err %v", err, tt.err)
 			}

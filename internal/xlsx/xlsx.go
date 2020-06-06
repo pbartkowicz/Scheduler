@@ -74,14 +74,18 @@ func Read(n string, skip bool) ([][]string, error) {
 }
 
 // Write creates file with a given name in a given path and saves passed data in it.
-func Write(n, p string, dd [][]string) error {
+func Write(n, p, s string, dd [][]string) error {
 	rp, err := filepath.Abs(p)
 	if err != nil {
 		return &Error{Op: WriteOp, File: p, Err: ErrPathNotExists}
 	}
-	f := excelize.NewFile()
-	s := "Sheet1"
+	f, err := excelize.OpenFile(fmt.Sprintf("%s/%s.xlsx", rp, n))
+	if err != nil {
+		f = excelize.NewFile()
+	}
 	f.NewSheet(s)
+	// It is automatically created
+	f.DeleteSheet("Sheet1")
 	for i, d := range dd {
 		f.SetSheetRow(s, fmt.Sprintf("A%v", i+1), &d)
 	}
