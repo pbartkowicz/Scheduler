@@ -1,10 +1,9 @@
-package schedule
+package university
 
 import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/pbartkowicz/scheduler/internal/university"
 )
 
 func Test_pop(t *testing.T) {
@@ -22,35 +21,35 @@ func Test_pop(t *testing.T) {
 			args: args{
 				sts: []*StudentGroup{
 					{
-						Student: &university.Student{
+						Student: &Student{
 							Name: "a",
 						},
 					},
 					{
-						Student: &university.Student{
+						Student: &Student{
 							Name: "b",
 						},
 					},
 					{
-						Student: &university.Student{
+						Student: &Student{
 							Name: "c",
 						},
 					},
 				},
 			},
 			want: &StudentGroup{
-				Student: &university.Student{
+				Student: &Student{
 					Name: "a",
 				},
 			},
 			wantSlice: []*StudentGroup{
 				{
-					Student: &university.Student{
+					Student: &Student{
 						Name: "b",
 					},
 				},
 				{
-					Student: &university.Student{
+					Student: &Student{
 						Name: "c",
 					},
 				},
@@ -74,8 +73,8 @@ func Test_getStudents(t *testing.T) {
 	type args struct {
 		i        int
 		likes    bool
-		s        *university.Subject
-		students []*university.Student
+		s        *Subject
+		students []*Student
 	}
 	tests := []struct {
 		name    string
@@ -87,9 +86,9 @@ func Test_getStudents(t *testing.T) {
 			args: args{
 				i:     0,
 				likes: true,
-				s: &university.Subject{
+				s: &Subject{
 					Name: "Math",
-					Groups: []*university.Group{
+					Groups: []*Group{
 						{
 							Capacity: 5,
 							Name:     "1",
@@ -104,10 +103,10 @@ func Test_getStudents(t *testing.T) {
 						},
 					},
 				},
-				students: []*university.Student{
+				students: []*Student{
 					{
 						Name: "a",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -124,7 +123,7 @@ func Test_getStudents(t *testing.T) {
 					},
 					{
 						Name: "b",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -141,7 +140,7 @@ func Test_getStudents(t *testing.T) {
 					},
 					{
 						Name: "c",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -160,9 +159,9 @@ func Test_getStudents(t *testing.T) {
 			},
 			wantSgs: []*StudentGroup{
 				{
-					Student: &university.Student{
+					Student: &Student{
 						Name: "a",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -177,7 +176,7 @@ func Test_getStudents(t *testing.T) {
 							}: 1,
 						},
 					},
-					Group: &university.Group{
+					Group: &Group{
 						Capacity: 5,
 						Name:     "2",
 					},
@@ -188,9 +187,9 @@ func Test_getStudents(t *testing.T) {
 			name: "Return students who can be moved to other groups",
 			args: args{
 				i: 1,
-				s: &university.Subject{
+				s: &Subject{
 					Name: "Math",
-					Groups: []*university.Group{
+					Groups: []*Group{
 						{
 							Capacity: 5,
 							Name:     "1",
@@ -205,10 +204,10 @@ func Test_getStudents(t *testing.T) {
 						},
 					},
 				},
-				students: []*university.Student{
+				students: []*Student{
 					{
 						Name: "a",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -225,7 +224,7 @@ func Test_getStudents(t *testing.T) {
 					},
 					{
 						Name: "b",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -244,9 +243,9 @@ func Test_getStudents(t *testing.T) {
 			},
 			wantSgs: []*StudentGroup{
 				{
-					Student: &university.Student{
+					Student: &Student{
 						Name: "a",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -261,15 +260,15 @@ func Test_getStudents(t *testing.T) {
 							}: 2,
 						},
 					},
-					Group: &university.Group{
+					Group: &Group{
 						Capacity: 5,
 						Name:     "3",
 					},
 				},
 				{
-					Student: &university.Student{
+					Student: &Student{
 						Name: "b",
-						Preferences: map[university.SubjectGroup]int{
+						Preferences: map[SubjectGroup]int{
 							{
 								Subject: "Math",
 								Group:   "1",
@@ -284,7 +283,7 @@ func Test_getStudents(t *testing.T) {
 							}: 3,
 						},
 					},
-					Group: &university.Group{
+					Group: &Group{
 						Capacity: 5,
 						Name:     "3",
 					},

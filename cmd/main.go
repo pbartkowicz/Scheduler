@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/pbartkowicz/scheduler/internal/schedule"
 	"github.com/pbartkowicz/scheduler/internal/university"
 	"github.com/pbartkowicz/scheduler/internal/xlsx"
 )
@@ -35,7 +34,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	schedule.Enroll(sch, students)
+	sch.Enroll(students)
 
 	if err := saveStudents(students, *rf); err != nil {
 		fmt.Printf("%s\n", err.Error())
