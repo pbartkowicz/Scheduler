@@ -1,6 +1,7 @@
 package university
 
 import (
+	"reflect"
 	"sort"
 	"strconv"
 	"testing"
@@ -410,6 +411,43 @@ func TestSortGroup(t *testing.T) {
 			sort.Sort(tt.g)
 			if !cmp.Equal(tt.g, tt.want) {
 				t.Errorf("sort.Sort(Group) got = %v, want %v", tt.g, tt.want)
+			}
+		})
+	}
+}
+
+func TestGroup_Save(t *testing.T) {
+	tests := []struct {
+		name string
+		g    *Group
+		want [][]string
+	}{
+		{
+			name: "Successfully saves students",
+			g: &Group{
+				PriorityStudents: []*Student{
+					{Name: "aaa"},
+					{Name: "bbb"},
+					{Name: "ccc"},
+				},
+				Students: []*Student{
+					{Name: "ddd"},
+					{Name: "eee"},
+				},
+			},
+			want: [][]string{
+				{"aaa"},
+				{"bbb"},
+				{"ccc"},
+				{"ddd"},
+				{"eee"},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.g.Save(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Group.Save() = %v, want %v", got, tt.want)
 			}
 		})
 	}

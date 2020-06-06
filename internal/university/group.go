@@ -171,3 +171,21 @@ func (g *Group) RemoveStudent(st *Student) {
 	}
 	g.Students = newStudents
 }
+
+// Save creates a slice with students who will attend this group.
+func (g *Group) Save() [][]string {
+	res := make([][]string, len(g.PriorityStudents)+len(g.Students))
+	var i int
+	saveStudents(g.PriorityStudents, res, &i)
+	saveStudents(g.Students, res, &i)
+	return res
+}
+
+func saveStudents(sts []*Student, res [][]string, i *int) {
+	for _, st := range sts {
+		r := make([]string, 1)
+		r[0] = st.Name
+		res[*i] = r
+		*i++
+	}
+}
