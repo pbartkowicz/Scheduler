@@ -15,7 +15,7 @@ func main() {
 	gf := flag.String("groups", "data/groups.xlsx", "Path to file containing groups")
 	sd := flag.String("students", "data/students", "Path to directory containing students")
 	psf := flag.String("priority", "data/priority_students.xlsx", "Path to file containing priority students")
-	rf := flag.String("result", "data/result", "Path to the directory where the results will be saved")
+	rd := flag.String("result", "data/result", "Path to the directory where the results will be saved")
 
 	sch, err := readSchedule(*gf)
 	if err != nil {
@@ -36,11 +36,11 @@ func main() {
 
 	sch.Enroll(students)
 
-	if err := saveStudents(students, *rf); err != nil {
+	if err := saveStudents(students, *rd); err != nil {
 		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}
-	if err := saveSubjects(sch, *rf); err != nil {
+	if err := saveSubjects(sch, *rd); err != nil {
 		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}

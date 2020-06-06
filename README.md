@@ -4,8 +4,6 @@ TBD
 
 ## Development
 
-TBD
-
 Building:
 ```sh
 make build
@@ -13,7 +11,7 @@ make build
 
 Starting:
 ```sh
-make start
+make start gf=/path/to/groups.xlsx sd=/path/to/students/directory psf=/path/to/priority_students.xlsx rd=/path/to/results/directory
 ```
 
 Testing:
@@ -23,7 +21,7 @@ make go-test
 
 Running:
 ```sh
-make run
+make run gf=/path/to/groups.xlsx sd=/path/to/students/directory psf=/path/to/priority_students.xlsx rd=/path/to/results/directory
 ```
 
 Cleaning:
@@ -33,14 +31,23 @@ make clean
 
 Executing all commands:
 ```sh
-make all
+make all gf=/path/to/groups.xlsx sd=/path/to/students/directory psf=/path/to/priority_students.xlsx rd=/path/to/results/directory
 ```
+
+Arguments:
+
+| Argument | Default Value | Description |
+| -------- | ------------- | ----------- |
+| gf | data/groups.xlsx | Path to a file which contains groups |
+| sd | data/students | Path to a directory which contains students preferences |
+| psf | data/priority_students.xlsx | Path to a file which contains list of priority students |
+| rd | data/result | Path to a directory where the results will be saved |
 
 ## Usage
 
 TBD
 
-### Files format
+### Files structures
 
 #### Groups
 
