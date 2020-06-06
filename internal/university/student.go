@@ -162,7 +162,7 @@ func (s *Student) CalculateHappieness(sn string) {
 		s.Happieness[sn] = 100.0
 		return
 	}
-	s.Happieness[sn] = (1.0 / (float64(len(distinct) - 1))) * 100.0
+	s.Happieness[sn] = (1.0 / (float64(len(distinct)))) * 100.0
 }
 
 // Save creates a slice with groups which were chosen for a student.

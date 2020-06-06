@@ -373,7 +373,7 @@ func TestStudent_CalculateHappieness(t *testing.T) {
 				},
 			},
 			want: map[string]float64{
-				"Math": (1.0 / (float64(3 - 1))) * 100.0,
+				"Math": (1.0 / float64(3)) * 100.0,
 			},
 		},
 	}
