@@ -1,6 +1,7 @@
 package university
 
 import (
+	"reflect"
 	"strconv"
 	"testing"
 	"time"
@@ -381,6 +382,40 @@ func TestStudent_CalculateHappieness(t *testing.T) {
 			tt.s.CalculateHappieness(tt.args.sn)
 			if !cmp.Equal(tt.s.Happieness, tt.want) {
 				t.Errorf("Student.CalculateHappieness() = %v, want %v", tt.s.Happieness, tt.want)
+			}
+		})
+	}
+}
+
+func TestStudent_Save(t *testing.T) {
+	tests := []struct {
+		name string
+		s    *Student
+		want [][]string
+	}{
+		{
+			name: "Successfully saves groups for student",
+			s: &Student{
+				FinalGroups: map[string]*Group{
+					"Math":        {Name: "1"},
+					"Programming": {Name: "2a"},
+					"Algorithms":  nil,
+				},
+			},
+			want: [][]string{
+				{
+					"Math", "1",
+				},
+				{
+					"Programming", "2a",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotRes := tt.s.Save(); !reflect.DeepEqual(gotRes, tt.want) {
+				t.Errorf("Student.Save() = %v, want %v", gotRes, tt.want)
 			}
 		})
 	}

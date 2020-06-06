@@ -164,3 +164,26 @@ func (s *Student) CalculateHappieness(sn string) {
 	}
 	s.Happieness[sn] = (1.0 / (float64(len(distinct) - 1))) * 100.0
 }
+
+// Save creates a slice with groups which were chosen for a student.
+func (s *Student) Save() [][]string {
+	var i int
+	var gLen int
+	for _, v := range s.FinalGroups {
+		if v != nil {
+			gLen++
+		}
+	}
+	res := make([][]string, gLen)
+	for k, v := range s.FinalGroups {
+		if v == nil {
+			continue
+		}
+		r := make([]string, 2)
+		r[0] = k
+		r[1] = v.Name
+		res[i] = r
+		i++
+	}
+	return res
+}
