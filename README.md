@@ -68,7 +68,7 @@ TBD
 
 Please note that the `priorities` within one subject must be consecutive and start from 1 (the most important group). They can be repeated.
 
-Please note that the `file name` will be parsed a `student's name`.
+Please note that the `file name` will be parsed as a `student's name`.
 
 #### Priority Students
 
