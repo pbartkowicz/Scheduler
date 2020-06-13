@@ -4,6 +4,8 @@ TBD
 
 ## Development
 
+Please note that the makefile won't work on Windows OS.
+
 Building:
 ```sh
 make build
@@ -11,7 +13,7 @@ make build
 
 Starting:
 ```sh
-make start gf=/path/to/groups.xlsx sd=/path/to/students/directory psf=/path/to/priority_students.xlsx rd=/path/to/results/directory
+make start groups=./path/to/groups.xlsx students=./path/to/students/directory priority=./path/to/priority_students.xlsx result=./path/to/results/directory
 ```
 
 Testing:
@@ -21,7 +23,7 @@ make go-test
 
 Running:
 ```sh
-make run gf=/path/to/groups.xlsx sd=/path/to/students/directory psf=/path/to/priority_students.xlsx rd=/path/to/results/directory
+make run groups=./path/to/groups.xlsx students=./path/to/students/directory priority=./path/to/priority_students.xlsx result=./path/to/results/directory
 ```
 
 Cleaning:
@@ -31,19 +33,27 @@ make clean
 
 Executing all commands:
 ```sh
-make all gf=/path/to/groups.xlsx sd=/path/to/students/directory psf=/path/to/priority_students.xlsx rd=/path/to/results/directory
+make all groups=./path/to/groups.xlsx students=./path/to/students/directory priority=./path/to/priority_students.xlsx result=./path/to/results/directory
 ```
 
 Arguments:
 
 | Argument | Default Value | Description |
 | -------- | ------------- | ----------- |
-| gf | data/groups.xlsx | Path to a file which contains groups |
-| sd | data/students | Path to a directory which contains students preferences |
-| psf | data/priority_students.xlsx | Path to a file which contains list of priority students |
-| rd | data/result | Path to a directory where the results will be saved |
+| groups | ./data/groups.xlsx | Path to a file which contains groups |
+| students | ./data/students | Path to a directory which contains students preferences |
+| priority | ./data/priority_students.xlsx | Path to a file which contains list of priority students |
+| result | ./data/result | Path to a directory where the results will be saved |
 
 ## Usage
+
+Linux / OSX:
+
+```sh
+./main -groups=./example/groups.xlsx -students=./example/students -priority=./example/priority_students.xlsx -result=./example/result
+```
+
+Windows:
 
 TBD
 
@@ -51,7 +61,7 @@ TBD
 
 #### Groups
 
-| Name | Type | Special format | Description |
+| Name | Type | Format | Description |
 | ---- | ---- | ----- | ----------- |
 | name | General | - | Subject name |
 | type | General | Lecture &#124; Laboratory &#124; Class | Type of a class |

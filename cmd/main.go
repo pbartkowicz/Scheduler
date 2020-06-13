@@ -12,10 +12,12 @@ import (
 )
 
 func main() {
-	gf := flag.String("groups", "data/groups.xlsx", "Path to file containing groups")
-	sd := flag.String("students", "data/students", "Path to directory containing students")
-	psf := flag.String("priority", "data/priority_students.xlsx", "Path to file containing priority students")
-	rd := flag.String("result", "data/result", "Path to the directory where the results will be saved")
+	gf := flag.String("groups", "./data/groups.xlsx", "Path to file containing groups")
+	sd := flag.String("students", "./data/students", "Path to directory containing students")
+	psf := flag.String("priority", "./data/priority_students.xlsx", "Path to file containing priority students")
+	rd := flag.String("result", "./data/result", "Path to the directory where the results will be saved")
+
+	flag.Parse()
 
 	sch, err := readSchedule(*gf)
 	if err != nil {
