@@ -1,10 +1,12 @@
 # scheduler
 
-TBD
+Scheduler is a tool for creating students' schedule based on their preferences. It receives four paths to files as arguments. The files are described in the Usage section.
 
 ## Development
 
 Please note that the makefile won't work on Windows OS.
+
+[Go language](https://golang.org/doc/install)
 
 Building:
 ```sh
@@ -40,22 +42,26 @@ Arguments:
 
 | Argument | Default Value | Description |
 | -------- | ------------- | ----------- |
-| groups | ./data/groups.xlsx | Path to a file which contains groups |
-| students | ./data/students | Path to a directory which contains students preferences |
-| priority | ./data/priority_students.xlsx | Path to a file which contains list of priority students |
-| result | ./data/result | Path to a directory where the results will be saved |
+| groups | ./example/groups.xlsx | Path to a file which contains groups |
+| students | ./example/students | Path to a directory which contains students preferences |
+| priority | ./example/priority_students.xlsx | Path to a file which contains list of priority students |
+| result | ./example/result | Path to a directory where the results will be saved |
 
 ## Usage
+
+Please note that the `example` directory contains sample files and directories.
 
 Linux / OSX:
 
 ```sh
-./main -groups=./example/groups.xlsx -students=./example/students -priority=./example/priority_students.xlsx -result=./example/result
+./main -groups=./path/to/groups.xlsx -students=./path/to/students/directory -priority=./path/to/priority_students.xlsx -result=./path/to/results/directory
 ```
 
 Windows:
 
-TBD
+```sh
+.\main.exe -groups=".\path\to\groups.xlsx" -students=".\path\to\students\directory" -priority=".\path\to\priority_students.xlsx" -result=".\path\to\results\directory"
+```
 
 ### Files structures
 

@@ -1,7 +1,7 @@
-groups=./data/groups.xlsx
-students=./data/students
-priority=./data/priority_students.xlsx
-result=./data/result
+groups=./example/groups.xlsx
+students=./example/students
+priority=./example/priority_students.xlsx
+result=./example/result
 
 build:
 	go build -o bin/main cmd/main.go

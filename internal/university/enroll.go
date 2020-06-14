@@ -11,7 +11,6 @@ func (s *Schedule) Enroll(students []*Student) {
 	// Sort subjects by number of conflicts
 	sort.Sort(s)
 	s.resolve(students)
-	// TODO: Check for conflicts in students plans
 	printHappieness(students)
 }
 
@@ -24,7 +23,7 @@ func printHappieness(students []*Student) {
 			happy += st.GetHappieness()
 		}
 	}
-	fmt.Printf("\nStudents happieness: %.2f\n", happy/float64(stLen))
+	fmt.Printf("\nStudents' happieness: %.2f\n", happy/float64(stLen))
 }
 
 // assign students to preferred groups

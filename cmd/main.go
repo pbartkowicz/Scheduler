@@ -12,38 +12,38 @@ import (
 )
 
 func main() {
-	gf := flag.String("groups", "./data/groups.xlsx", "Path to file containing groups")
-	sd := flag.String("students", "./data/students", "Path to directory containing students")
-	psf := flag.String("priority", "./data/priority_students.xlsx", "Path to file containing priority students")
-	rd := flag.String("result", "./data/result", "Path to the directory where the results will be saved")
+	gf := flag.String("groups", "./example/groups.xlsx", "Path to file containing groups")
+	sd := flag.String("students", "./example/students", "Path to directory containing students")
+	psf := flag.String("priority", "./example/priority_students.xlsx", "Path to file containing priority students")
+	rd := flag.String("result", "./example/result", "Path to the directory where the results will be saved")
 
 	flag.Parse()
 
 	sch, err := readSchedule(*gf)
 	if err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Read groups: %s\n", err.Error())
 		os.Exit(1)
 	}
 
 	students, err := readStudents(*sd)
 	if err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Read students: %s\n", err.Error())
 		os.Exit(1)
 	}
 
 	if err := readPriorityStudents(*psf, students); err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Read priority students: %s\n", err.Error())
 		os.Exit(1)
 	}
 
 	sch.Enroll(students)
 
 	if err := saveStudents(students, *rd); err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Save students: %s\n", err.Error())
 		os.Exit(1)
 	}
 	if err := saveSubjects(sch, *rd); err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Save subjects: %s\n", err.Error())
 		os.Exit(1)
 	}
 }
@@ -71,7 +71,7 @@ func readStudents(sd string) ([]*university.Student, error) {
 	}
 	var students []*university.Student
 	for _, sf := range sfs {
-		pref, err := xlsx.Read(sd+"/"+sf.Name(), true)
+		pref, err := xlsx.Read(filepath.Join(sd, sf.Name()), true)
 		if err != nil {
 			return nil, err
 		}

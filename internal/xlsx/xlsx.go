@@ -44,7 +44,6 @@ func (e *Error) Error() string {
 
 // Read retrieves data from the first sheet of file n.
 // If skip is set to true, it skips the first line.
-// It returns an error if an absolute path of file was not found
 func Read(n string, skip bool) ([][]string, error) {
 	p, err := filepath.Abs(n)
 	if err != nil {
@@ -79,7 +78,8 @@ func Write(n, p, s string, dd [][]string) error {
 	if err != nil {
 		return &Error{Op: WriteOp, File: p, Err: ErrPathNotExists}
 	}
-	f, err := excelize.OpenFile(fmt.Sprintf("%s/%s.xlsx", rp, n))
+	fn := filepath.Join(rp, fmt.Sprintf("%s.xlsx", n))
+	f, err := excelize.OpenFile(fn)
 	if err != nil {
 		f = excelize.NewFile()
 	}
@@ -89,5 +89,5 @@ func Write(n, p, s string, dd [][]string) error {
 	for i, d := range dd {
 		f.SetSheetRow(s, fmt.Sprintf("A%v", i+1), &d)
 	}
-	return f.SaveAs(fmt.Sprintf("%s/%s.xlsx", rp, n))
+	return f.SaveAs(fn)
 }
