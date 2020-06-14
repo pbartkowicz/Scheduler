@@ -49,7 +49,7 @@ var weekdays = map[string]time.Weekday{
 }
 
 // Group represents a single students group for one subject.
-// It implements sort.Interface based on students' happieness in a slice containing students.
+// It implements sort.Interface based on students' happiness in a slice containing students.
 type Group struct {
 	Type             ClassType
 	Teacher          string
@@ -71,14 +71,14 @@ func (g *Group) Len() int {
 }
 
 func (g *Group) Less(i, j int) bool {
-	return g.Students[i].GetHappieness() > g.Students[j].GetHappieness()
+	return g.Students[i].GetHappiness() > g.Students[j].GetHappiness()
 }
 
 func (g *Group) Swap(i, j int) {
 	g.Students[i], g.Students[j] = g.Students[j], g.Students[i]
 }
 
-// NewGroup creates new instance of Group.
+// NewGroup creates a new instance of Group.
 // It returns GroupError when passed parameters are invalid.
 // subjects:
 // 0 - subject name
@@ -91,7 +91,7 @@ func (g *Group) Swap(i, j int) {
 // 7 - start date, format: 03-05-20 (5th of March 2020)
 // 8 - frequency, format: number
 // 9 - group name
-// 10 - capacity, format: nubmer
+// 10 - capacity, format: number
 func NewGroup(subjects []string) (*Group, error) {
 	t := types[subjects[1]]
 	if t == "" {
@@ -140,7 +140,7 @@ func NewGroup(subjects []string) (*Group, error) {
 	}, nil
 }
 
-// Conflicts calculates the number of conflicts within group.
+// Conflicts calculate the number of conflicts within a group.
 // Conflict exists when the number of students in a group is too high.
 func (g *Group) Conflicts() int {
 	return (len(g.PriorityStudents) + len(g.Students)) - g.Capacity

@@ -11,19 +11,19 @@ func (s *Schedule) Enroll(students []*Student) {
 	// Sort subjects by number of conflicts
 	sort.Sort(s)
 	s.resolve(students)
-	printHappieness(students)
+	printHappiness(students)
 }
 
-func printHappieness(students []*Student) {
+func printHappiness(students []*Student) {
 	var happy float64
 	var stLen int
 	for _, st := range students {
 		if !st.Priority {
 			stLen++
-			happy += st.GetHappieness()
+			happy += st.GetHappiness()
 		}
 	}
-	fmt.Printf("\nStudents' happieness: %.2f\n", happy/float64(stLen))
+	fmt.Printf("\nStudents' happiness: %.2f\n", happy/float64(stLen))
 }
 
 // assign students to preferred groups
@@ -45,7 +45,7 @@ func (s *Schedule) assign(students []*Student) {
 			} else {
 				g.Students = append(g.Students, st)
 			}
-			st.Happieness[sub.Name] = 100.0
+			st.Happiness[sub.Name] = 100.0
 		}
 	}
 }
@@ -62,7 +62,7 @@ func (s *Schedule) resolve(students []*Student) {
 			}
 			continue
 		}
-		// Sort students within group by happieness [descending]
+		// Sort students within group by happiness [descending]
 		for _, g := range sub.Groups {
 			sort.Sort(g)
 		}
@@ -89,8 +89,8 @@ func (s *Schedule) resolve(students []*Student) {
 				sg, mSgs = pop(mSgs)
 				sg.Group.Students = append(sg.Group.Students, sg.Student)
 				g.RemoveStudent(sg.Student)
-				// Change student happieness
-				sg.Student.CalculateHappieness(sub.Name)
+				// Change student happiness
+				sg.Student.CalculateHappiness(sub.Name)
 			}
 		}
 		// Set final groups for this subject

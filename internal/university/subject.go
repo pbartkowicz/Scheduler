@@ -2,7 +2,7 @@ package university
 
 // Subject represents one subject.
 // It contains all subject's groups.
-// It implements sort.Interface based on number of conflicts in a slice containing groups.
+// It implements sort.Interface based on the number of conflicts in a slice containing groups.
 type Subject struct {
 	Name     string
 	Lectures []*Group

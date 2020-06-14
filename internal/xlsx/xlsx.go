@@ -72,7 +72,7 @@ func Read(n string, skip bool) ([][]string, error) {
 	return data, nil
 }
 
-// Write creates file with a given name in a given path and saves passed data in it.
+// Write creates a file with a given name in a given path and saves passed data in it.
 func Write(n, p, s string, dd [][]string) error {
 	rp, err := filepath.Abs(p)
 	if err != nil {

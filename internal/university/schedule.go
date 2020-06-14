@@ -7,7 +7,7 @@ const (
 )
 
 // Schedule represents schedule for one semester.
-// It implements sort.Interface based on number of conflicts in a slice containing.
+// It implements sort.Interface based on the number of conflicts in a slice containing subjects.
 type Schedule struct {
 	Subjects []*Subject
 }

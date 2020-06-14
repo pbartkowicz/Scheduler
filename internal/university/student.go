@@ -28,9 +28,9 @@ func (e *StudentError) Error() string {
 
 // Student represents a university student and their preferences.
 // Name - student name which is read from file name with preferences.
-// Priority - if set to true, than student will receive the same schedule as in ChosenGroups.
-// Happieness - reflects how much final schedule is similar to their preferences.
-// It contains map in which a key is subject name and value is calculated happieness.
+// Priority - if set to true, then a student will receive the same schedule as in ChosenGroups.
+// Happiness - reflects how much the final schedule is similar to their preferences.
+// It contains a map in which a key is the subject name and value is calculated happiness.
 // Preferences - contains list of groups with priorities for each subject, one priority for group.
 // - Priorities have to start from 1 (highest).
 // - Priorities have to be consecutive and they can be repeated.
@@ -39,7 +39,7 @@ type Student struct {
 	Name        string
 	Priority    bool
 	Preferences map[SubjectGroup]int
-	Happieness  map[string]float64
+	Happiness   map[string]float64
 	FinalGroups map[string]*Group
 }
 
@@ -50,7 +50,7 @@ type SubjectGroup struct {
 	Group   string
 }
 
-// NewStudent creates new instance of Student.
+// NewStudent creates a new instance of Student.
 // It returns StudentError when passed parameters are invalid.
 // Passed parameters:
 // n - filename which contains student name
@@ -62,7 +62,7 @@ func NewStudent(pref [][]string, n string) (*Student, error) {
 	s := &Student{
 		Name:        strings.Replace(n, ".xlsx", "", -1),
 		Preferences: make(map[SubjectGroup]int),
-		Happieness:  make(map[string]float64),
+		Happiness:   make(map[string]float64),
 		FinalGroups: make(map[string]*Group),
 	}
 	for _, p := range pref {
@@ -131,17 +131,17 @@ func (s *Student) CanMove(sub string, g *Group) bool {
 	return true
 }
 
-// GetHappieness is used to retrieve student's happieness
-func (s *Student) GetHappieness() (res float64) {
-	for _, v := range s.Happieness {
+// GetHappiness is used to retrieve student's happiness
+func (s *Student) GetHappiness() (res float64) {
+	for _, v := range s.Happiness {
 		res += v
 	}
-	return res / float64(len(s.Happieness))
+	return res / float64(len(s.Happiness))
 }
 
-// CalculateHappieness is used to count student's happieness for a subject.
+// CalculateHappiness is used to count student's happiness for a subject.
 // It's based on their preferences.
-func (s *Student) CalculateHappieness(sn string) {
+func (s *Student) CalculateHappiness(sn string) {
 	// Count number of distinct priorities within one subject
 	var priorities []int
 	for k, v := range s.Preferences {
@@ -159,10 +159,10 @@ func (s *Student) CalculateHappieness(sn string) {
 	}
 
 	if len(distinct) == 1 {
-		s.Happieness[sn] = 100.0
+		s.Happiness[sn] = 100.0
 		return
 	}
-	s.Happieness[sn] = (1.0 / (float64(len(distinct)))) * 100.0
+	s.Happiness[sn] = (1.0 / (float64(len(distinct)))) * 100.0
 }
 
 // Save creates a slice with groups which were chosen for a student.

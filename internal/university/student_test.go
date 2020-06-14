@@ -58,7 +58,7 @@ func TestNewStudent(t *testing.T) {
 					{"subject2", "g2"}: 2,
 				},
 				FinalGroups: make(map[string]*Group),
-				Happieness:  make(map[string]float64),
+				Happiness:   make(map[string]float64),
 			},
 		},
 	}
@@ -313,16 +313,16 @@ func TestStudent_CanMove(t *testing.T) {
 	}
 }
 
-func TestStudent_GetHappieness(t *testing.T) {
+func TestStudent_GetHappiness(t *testing.T) {
 	tests := []struct {
 		name    string
 		s       *Student
 		wantRes float64
 	}{
 		{
-			name: "Successfully counts student's happieness",
+			name: "Successfully counts student's happiness",
 			s: &Student{
-				Happieness: map[string]float64{
+				Happiness: map[string]float64{
 					"Math":        100.0,
 					"Programming": 50.0,
 					"Algorithms":  25.0,
@@ -333,14 +333,14 @@ func TestStudent_GetHappieness(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotRes := tt.s.GetHappieness(); gotRes != tt.wantRes {
-				t.Errorf("Student.GetHappieness() = %v, want %v", gotRes, tt.wantRes)
+			if gotRes := tt.s.GetHappiness(); gotRes != tt.wantRes {
+				t.Errorf("Student.GetHappiness() = %v, want %v", gotRes, tt.wantRes)
 			}
 		})
 	}
 }
 
-func TestStudent_CalculateHappieness(t *testing.T) {
+func TestStudent_CalculateHappiness(t *testing.T) {
 	type args struct {
 		sn string
 	}
@@ -351,12 +351,12 @@ func TestStudent_CalculateHappieness(t *testing.T) {
 		want map[string]float64
 	}{
 		{
-			name: "Successfully calculates student's happieness",
+			name: "Successfully calculates student's happiness",
 			args: args{
 				sn: "Math",
 			},
 			s: &Student{
-				Happieness: make(map[string]float64),
+				Happiness: make(map[string]float64),
 				Preferences: map[SubjectGroup]int{
 					{
 						Subject: "Math",
@@ -379,9 +379,9 @@ func TestStudent_CalculateHappieness(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.s.CalculateHappieness(tt.args.sn)
-			if !cmp.Equal(tt.s.Happieness, tt.want) {
-				t.Errorf("Student.CalculateHappieness() = %v, want %v", tt.s.Happieness, tt.want)
+			tt.s.CalculateHappiness(tt.args.sn)
+			if !cmp.Equal(tt.s.Happiness, tt.want) {
+				t.Errorf("Student.CalculateHappiness() = %v, want %v", tt.s.Happiness, tt.want)
 			}
 		})
 	}

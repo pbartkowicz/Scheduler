@@ -347,12 +347,12 @@ func TestSortGroup(t *testing.T) {
 		want *Group
 	}{
 		{
-			name: "Successfully sort students by happieness",
+			name: "Successfully sort students by happiness",
 			g: &Group{
 				Students: []*Student{
 					{
 						Name: "a",
-						Happieness: map[string]float64{
+						Happiness: map[string]float64{
 							"Math":        100.0,
 							"Programming": 50.0,
 							"Algorithms":  25.0,
@@ -360,7 +360,7 @@ func TestSortGroup(t *testing.T) {
 					},
 					{
 						Name: "b",
-						Happieness: map[string]float64{
+						Happiness: map[string]float64{
 							"Math":        100.0,
 							"Programming": 100.0,
 							"Algorithms":  100.0,
@@ -368,7 +368,7 @@ func TestSortGroup(t *testing.T) {
 					},
 					{
 						Name: "c",
-						Happieness: map[string]float64{
+						Happiness: map[string]float64{
 							"Math":        100.0,
 							"Programming": 50.0,
 							"Algorithms":  100.0,
@@ -380,7 +380,7 @@ func TestSortGroup(t *testing.T) {
 				Students: []*Student{
 					{
 						Name: "b",
-						Happieness: map[string]float64{
+						Happiness: map[string]float64{
 							"Math":        100.0,
 							"Programming": 100.0,
 							"Algorithms":  100.0,
@@ -388,7 +388,7 @@ func TestSortGroup(t *testing.T) {
 					},
 					{
 						Name: "c",
-						Happieness: map[string]float64{
+						Happiness: map[string]float64{
 							"Math":        100.0,
 							"Programming": 50.0,
 							"Algorithms":  100.0,
@@ -396,7 +396,7 @@ func TestSortGroup(t *testing.T) {
 					},
 					{
 						Name: "a",
-						Happieness: map[string]float64{
+						Happiness: map[string]float64{
 							"Math":        100.0,
 							"Programming": 50.0,
 							"Algorithms":  25.0,
