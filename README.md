@@ -78,7 +78,7 @@ Windows:
 | place | General | - | Place where classes are held |
 | start date | Date | day/month/year, e.g. 02/01/2006 | Start date of a group |
 | frequency | Number | - | How often class is held: 1 - 1/1 week, 2 - 1/2 weeks, etc. |
-| group | General | - | Group name |
+| group | General | - | Group name, use Lecture if group type is set to Lecture |
 | capacity | Number | - | Maximum number of students per group |   
 
 #### Student
